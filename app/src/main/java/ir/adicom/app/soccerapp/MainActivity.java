@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.support.ConnectionSource;
 
 import java.util.List;
+
+import ir.adicom.app.soccerapp.models.Position;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,9 +1,23 @@
 #
-# generated on 2017/06/16 09:47:38
+# generated on 2017/06/17 06:06:16
 #
 # --table-start--
-dataClass=ir.adicom.app.soccerapp.Position
+dataClass=ir.adicom.app.soccerapp.models.Position
 tableName=positions
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=ir.adicom.app.soccerapp.models.Continent
+tableName=continents
 # --table-fields-start--
 # --field-start--
 fieldName=id

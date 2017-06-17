@@ -5,6 +5,9 @@ import com.j256.ormlite.android.apptools.OrmLiteConfigUtil;
 import java.io.File;
 import java.io.IOException;
 
+import ir.adicom.app.soccerapp.models.Continent;
+import ir.adicom.app.soccerapp.models.Position;
+
 /**
  *
  * Created by adicom on 5/26/17.
@@ -12,7 +15,7 @@ import java.io.IOException;
 
 public class DatabaseConfigUtil extends OrmLiteConfigUtil {
     private static final Class<?>[] classes = new Class[] {
-            Position.class
+            Position.class, Continent.class
     };
 
     public static void main(String[] args) {

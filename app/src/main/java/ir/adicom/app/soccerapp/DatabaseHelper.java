@@ -11,6 +11,9 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import ir.adicom.app.soccerapp.models.Continent;
+import ir.adicom.app.soccerapp.models.Position;
+
 /**
  *
  * Created by adicom on 5/26/17.
@@ -18,12 +21,10 @@ import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    // name of the database file for your application -- change to something appropriate for your app
     private static final String DATABASE_NAME = "soccerdb.db";
-    // any time you make changes to your database objects, you may have to increase the database version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
-    // the DAO object we use to access the Account table
+    // the DAO object we use to access the tables
     private Dao<Position, Integer> simpleDao = null;
     private RuntimeExceptionDao<Position, String> simpleRuntimeDao = null;
 
@@ -40,6 +41,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             Log.i(DatabaseHelper.class.getName(), "onCreate");
             TableUtils.createTable(connectionSource, Position.class);
+            TableUtils.createTable(connectionSource, Continent.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -47,14 +49,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             e.printStackTrace();
         }
 
-        // here we try inserting data in the on-create as a test
+        // here we try inserting data in the on-create
         RuntimeExceptionDao<Position, String> dao = getSimpleDataDao();
+        RuntimeExceptionDao<Continent, String> daoContinent = getRuntimeExceptionDao(Continent.class);
         long millis = System.currentTimeMillis();
+
         // create some entries in the onCreate
-        Position position = new Position(1, "Forward");
-        dao.create(position);
-        position = new Position(2, "GoalKeeper");
-        dao.create(position);
+        dao.create(new Position("Goalkeeper"));
+        dao.create(new Position("Defender"));
+        dao.create(new Position("Midfielder"));
+        dao.create(new Position("Forward"));
+
+        daoContinent.create(new Continent("Asia"));
+        daoContinent.create(new Continent("Africa"));
+        daoContinent.create(new Continent("North America"));
+        daoContinent.create(new Continent("South America"));
+        daoContinent.create(new Continent("Europe"));
+        daoContinent.create(new Continent("Australia"));
+
         Log.i(DatabaseHelper.class.getName(), "created new entries in onCreate: " + millis);
     }
 
@@ -78,7 +90,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * Returns the Database Access Object (DAO) for our Account class. It will create it or just give the cached
+     * Returns the Database Access Object (DAO) for our Postion class. It will create it or just give the cached
      * value.
      */
     public Dao<Position, Integer> getDao() throws SQLException, java.sql.SQLException {
@@ -89,7 +101,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * Returns the RuntimeExceptionDao (Database Access Object) version of a Dao for our Account class. It will
+     * Returns the RuntimeExceptionDao (Database Access Object) version of a Dao for our Postion class. It will
      * create it or just give the cached value. RuntimeExceptionDao only through RuntimeExceptions.
      */
     public RuntimeExceptionDao<Position, String> getSimpleDataDao() {

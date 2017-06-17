@@ -1,4 +1,4 @@
-package ir.adicom.app.soccerapp;
+package ir.adicom.app.soccerapp.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -20,7 +20,7 @@ public class Position {
     public Position() {
         // ORMLite needs a no-arg constructor
     }
-    public Position(int id, String name) {
+    public Position(String name) {
         this.id = id;
         this.name = name;
     }
