@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 import ir.adicom.app.soccerapp.models.Continent;
+import ir.adicom.app.soccerapp.models.Country;
 import ir.adicom.app.soccerapp.models.Position;
 
 /**
@@ -15,7 +16,7 @@ import ir.adicom.app.soccerapp.models.Position;
 
 public class DatabaseConfigUtil extends OrmLiteConfigUtil {
     private static final Class<?>[] classes = new Class[] {
-            Position.class, Continent.class
+            Position.class, Continent.class, Country.class
     };
 
     public static void main(String[] args) {

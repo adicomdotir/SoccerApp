@@ -12,6 +12,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import ir.adicom.app.soccerapp.models.Continent;
+import ir.adicom.app.soccerapp.models.Country;
 import ir.adicom.app.soccerapp.models.Position;
 
 /**
@@ -22,7 +23,7 @@ import ir.adicom.app.soccerapp.models.Position;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "soccerdb.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 7;
 
     // the DAO object we use to access the tables
     private Dao<Position, Integer> simpleDao = null;
@@ -42,6 +43,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.i(DatabaseHelper.class.getName(), "onCreate");
             TableUtils.createTable(connectionSource, Position.class);
             TableUtils.createTable(connectionSource, Continent.class);
+            TableUtils.createTable(connectionSource, Country.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -52,6 +54,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         // here we try inserting data in the on-create
         RuntimeExceptionDao<Position, String> dao = getSimpleDataDao();
         RuntimeExceptionDao<Continent, String> daoContinent = getRuntimeExceptionDao(Continent.class);
+        RuntimeExceptionDao<Country, String> countryDao = getRuntimeExceptionDao(Country.class);
         long millis = System.currentTimeMillis();
 
         // create some entries in the onCreate
@@ -60,12 +63,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         dao.create(new Position("Midfielder"));
         dao.create(new Position("Forward"));
 
-        daoContinent.create(new Continent("Asia"));
+        Continent asia = new Continent("Asia");
+        daoContinent.create(asia);
         daoContinent.create(new Continent("Africa"));
         daoContinent.create(new Continent("North America"));
         daoContinent.create(new Continent("South America"));
         daoContinent.create(new Continent("Europe"));
         daoContinent.create(new Continent("Australia"));
+
+        countryDao.create(new Country(asia, "Iran"));
+        countryDao.create(new Country(asia, "Iraq"));
+        countryDao.create(new Country(asia, "China"));
 
         Log.i(DatabaseHelper.class.getName(), "created new entries in onCreate: " + millis);
     }
@@ -79,6 +87,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             Log.i(DatabaseHelper.class.getName(), "onUpgrade");
             TableUtils.dropTable(connectionSource, Position.class, true);
+            TableUtils.dropTable(connectionSource, Country.class, true);
+            TableUtils.dropTable(connectionSource, Continent.class, true);
             // after we drop the old databases, we create the new ones
             onCreate(db, connectionSource);
         } catch (SQLException e) {
