@@ -1,8 +1,10 @@
 package ir.adicom.app.soccerapp;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         QueryBuilder<Continent, Integer> continentQueryBuilder = continentDao.queryBuilder();
         QueryBuilder<Country, Integer> countryQueryBuilder = simpleDao.queryBuilder();
         try {
-            countryQueryBuilder.join(continentQueryBuilder);
+            continentQueryBuilder.join(countryQueryBuilder);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
             simpleC++;
         }
         sb.append("------------------------------------------\n");
-        Log.e(LOG_TAG, sb.toString());
+
+        Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/splash.ttf");
+        TextView tvHeader = (TextView) findViewById(R.id.tvHeader);
+        if (tvHeader != null) tvHeader.setTypeface(font);
     }
 }
