@@ -1,22 +1,17 @@
-package ir.adicom.app.soccerapp;
+package ir.adicom.app.soccerapp.views;
 
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.stmt.QueryBuilder;
+import ir.adicom.app.soccerapp.R;
+import ir.adicom.app.soccerapp.presenters.IPresenter;
+import ir.adicom.app.soccerapp.presenters.Presenter;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import ir.adicom.app.soccerapp.models.Continent;
-import ir.adicom.app.soccerapp.models.Country;
-import ir.adicom.app.soccerapp.models.Position;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IView {
 
     private static final String LOG_TAG = "TAG";
 
@@ -25,10 +20,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
         DatabaseHelper db = new DatabaseHelper(this);
         RuntimeExceptionDao<Continent, Integer> continentDao = db.getRuntimeExceptionDao(Continent.class);
         RuntimeExceptionDao<Country, Integer> simpleDao = db.getRuntimeExceptionDao(Country.class);
-
         QueryBuilder<Continent, Integer> continentQueryBuilder = continentDao.queryBuilder();
         QueryBuilder<Country, Integer> countryQueryBuilder = simpleDao.queryBuilder();
         try {
@@ -36,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         // query for all of the data objects in the database
         List<Country> list = null;
         try {
@@ -54,9 +48,16 @@ public class MainActivity extends AppCompatActivity {
             simpleC++;
         }
         sb.append("------------------------------------------\n");
+        */
 
         Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/splash.ttf");
         TextView tvHeader = (TextView) findViewById(R.id.tvHeader);
         if (tvHeader != null) tvHeader.setTypeface(font);
+        IPresenter presenter = new Presenter(this);
+    }
+
+    @Override
+    public void setGreeting(@NonNull String greeting) {
+        Toast.makeText(this, greeting, Toast.LENGTH_SHORT).show();
     }
 }
